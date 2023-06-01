@@ -24,6 +24,11 @@ class BasePage():
             return False
         return True
 
-
-
+    def is_element_present_text(self, how, what):
+        try:
+            element = self.browser.find_element(how, what)
+            element_text = element.text
+        except NoSuchElementException:
+            return None
+        return element_text
 
