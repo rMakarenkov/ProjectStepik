@@ -1,5 +1,6 @@
 import math
 import time
+import credentials
 
 from pages.base_page import BasePage
 from pages.locators import MainPageLocators
@@ -30,25 +31,27 @@ class BasketPage(BasePage):
     def check_message_on_main_page(self):
         # проверяем, появилось ли сообщение с ценой товара в корзине
         assert self.is_element_present(*MainPageLocators.MESSAGE_PRICE_PRODUCT_LINK), "No such element"
-        assert self.is_element_present(*MainPageLocators.MESSAGE_TO_ADD_PRODUCT_IN_BASKET_LINK), "Missing message to add item to basket"
+        assert self.is_element_present(
+            *MainPageLocators.MESSAGE_TO_ADD_PRODUCT_IN_BASKET_LINK), "Missing message to add item to basket"
 
         price = self.is_element_present_text(*MainPageLocators.PRICE_PRODUCT_LINK)
-        price_in_message = self.is_element_present_text(*MainPageLocators.MESSAGE_PRICE_PRODUCT_LINK)
-        name_product = self.is_element_present_text(*MainPageLocators.NAME_PRODUCT_LINK)
-        product_in_message = self.is_element_present_text(*MainPageLocators.MESSAGE_TO_ADD_PRODUCT_IN_BASKET_LINK)
+        price_message = self.is_element_present_text(*MainPageLocators.MESSAGE_PRICE_PRODUCT_LINK)
+        name_item = self.is_element_present_text(*MainPageLocators.NAME_PRODUCT_LINK)
+        product_message = self.is_element_present_text(*MainPageLocators.MESSAGE_TO_ADD_PRODUCT_IN_BASKET_LINK)
 
-        assert price in price_in_message, "Price not in message"
-        print("В сообщении находится действительная цена продукта. Стоимость корзины совпадает с ценой продукта: "
-              f"\n {price.encode('utf-8')} "
-              f"\n {price_in_message.encode('utf-8')}")
-        assert name_product in product_in_message, "Product not in message"
-        print("Название товара в сообщении совпадает с тем товаром, который был добавлен: "
-              f"\n {name_product.encode('utf-8')} "
-              f"\n {product_in_message.encode('utf-8')}")
+        # проверяем, что цена продукта фигурирует в сообщении
+        assert price in price_message, "Price not in message"
+        print(
+            "The message contains the actual price of the product. The cost of the basket is the same as the price of the product: "
+            f"\n {price.encode('utf-8')} "
+            f"\n {price_message.encode('utf-8')}")
 
+        # проверяем, что название продукта фигурирует в сообщении
+        assert name_item in product_message, "Product not in message"
+        print("The product name in the message matches the product that was added: "
+              f"\n {name_item.encode('utf-8')} "
+              f"\n {product_message.encode('utf-8')}")
 
-
-
-
-
-
+        # проверяем, что сообщения соответствую эталонным. Предполагаем, что мы знаем практику формирования инфомрационных сообщений
+        assert (credentials.REF_MESSAGE_TO_OUTPUT_PRICE + " " + price) == price_message, "Incorrectly formed message with the price of the product"
+        assert (name_item + " " + credentials.REF_MESSAGE_TO_OUTPUT_NAME_ITEM) == product_message, "Incorrectly formed message with the name of the product"
