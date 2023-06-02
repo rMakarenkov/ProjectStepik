@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
-from pages.locators import BasePageLocators
+from pages.locators import BasePageLocators, MainPageLocators
 
 
 class BasePage():
@@ -65,7 +65,7 @@ class BasePage():
             print("No alert")
 
     def should_be_login_link(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), "Login link is not presented"
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
     def go_to_basket_page(self):
         basket_link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
@@ -92,3 +92,7 @@ class BasePage():
             pas = pas + random.choice(list(
                 '1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'))  # Символы, из которых будет составлен пароль
         return pas
+
+    def cant_see_success_message(self):
+        assert self.is_not_element_present(
+            *MainPageLocators.MESSAGE_TO_ADD_PRODUCT_IN_BASKET_LINK), "The message is on the current page"

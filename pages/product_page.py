@@ -56,5 +56,3 @@ class ProductPage(BasePage):
         assert (credentials.REF_MESSAGE_TO_OUTPUT_PRICE + " " + price) == price_message, "Incorrectly formed message with the price of the product"
         assert (name_item + " " + credentials.REF_MESSAGE_TO_OUTPUT_NAME_ITEM) == product_message, "Incorrectly formed message with the name of the product"
 
-
-
