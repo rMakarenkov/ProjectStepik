@@ -7,7 +7,7 @@ from pages.locators import MainPageLocators
 from selenium.common.exceptions import NoAlertPresentException
 
 
-class BasketPage(BasePage):
+class ProductPage(BasePage):
 
     def click_button_add_in_basket(self):
         button_in_basket = self.browser.find_element(*MainPageLocators.ADD_TO_BASKET_BUTTON_LINK)
@@ -28,7 +28,7 @@ class BasketPage(BasePage):
         except NoAlertPresentException:
             print("No second alert presented")
 
-    def check_message_on_main_page(self):
+    def check_message_on_product_page(self):
         # проверяем, появилось ли сообщение с ценой товара в корзине
         assert self.is_element_present(*MainPageLocators.MESSAGE_PRICE_PRODUCT_LINK), "No such element"
         assert self.is_element_present(
@@ -55,3 +55,6 @@ class BasketPage(BasePage):
         # проверяем, что сообщения соответствую эталонным. Предполагаем, что мы знаем практику формирования инфомрационных сообщений
         assert (credentials.REF_MESSAGE_TO_OUTPUT_PRICE + " " + price) == price_message, "Incorrectly formed message with the price of the product"
         assert (name_item + " " + credentials.REF_MESSAGE_TO_OUTPUT_NAME_ITEM) == product_message, "Incorrectly formed message with the name of the product"
+
+
+
